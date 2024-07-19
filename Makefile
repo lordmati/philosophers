@@ -6,15 +6,19 @@
 #    By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/16 17:50:34 by misaguir          #+#    #+#              #
-#    Updated: 2024/07/16 17:52:54 by misaguir         ###   ########.fr        #
+#    Updated: 2024/07/19 19:00:10 by misaguir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
-SRCS = main.c utils.c
+SRCS = 	main.c \
+		utils.c \
+		routine.c \
+		creating.c \
+		init.c \
 		
-CFLAGS = -Wall -Werror -Wextra
-OBJS_SRCS = $(SRCS:.c=.o)
+CFLAGS = -Wall -Werror -Wextra -pthread
+OBJS = $(SRCS:.c=.o)
 
 RM = rm -rf
 CC = gcc
@@ -24,11 +28,11 @@ CC = gcc
 
 all: $(NAME)
 
-$(NAME): $(OBJS_SRCS)
-	$(CC) $(CFLAGS) $(OBJS_SRCS) -o $(NAME)
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 clean:
-	@$(RM) $(OBJS_SRCS)
+	@$(RM) $(OBJS)
 
 fclean: clean
 	@$(RM) $(NAME)

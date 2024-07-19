@@ -6,11 +6,31 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:50:32 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/16 17:35:38 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:13:49 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+long	get_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+void	print_screen(char *str, long mls, int philo)
+{
+	printf("%ld %d %s\n", mls, philo, str);
+}
+
+void	msj_error(char *str, int error, t_global *data)
+{
+	(void)data;
+	printf("%s %d\n",str , error);
+	exit(1);
+}
 
 long	ft_atol(const char *str)
 {
