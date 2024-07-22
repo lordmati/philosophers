@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 16:56:07 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/22 15:36:08 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:29:08 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 static void *watching_philos(void *arg)
 {
-	t_philo *philo;
+	t_philo *philos;
 	int i;
 	long	time;
 
-	philo = (t_philo *)arg;
-	while (philo->global->death == 0)
+	philos = (t_philo *)arg;
+	while (philos->global->death == 0)
 	{
 		i = -1;
-		while(++i < philo->global->n_philo)
+		while(++i < philos->global->n_philo)
 		{
-			time = get_time() - philo->global->time;
-			if(philo[i].global->tt_die < (time - philo[i].last_food))
+			time = get_time() - philos->global->time;
+			if(philos[i].global->tt_die < (time - philos[i].last_food))
 			{
-				print_screen("die", (get_time() - philo->global->time), philo->id);
-				philo->global->death = 1;
+				print_screen("die", (get_time() - philos->global->time), philos[i].id, philos->global->death);
+				philos->global->death = 1;
 				return NULL;
 			}
-			if (philo[i].num_food == philo->global->quan_eat)
+			if (philos[i].num_food == philos->global->quan_eat)
 				return NULL;
 		}
 		usleep(50);

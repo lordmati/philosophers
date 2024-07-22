@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:38:43 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/22 16:39:18 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:09:04 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int main (int argc, char **argv)
 		philos = creating_thread(&data);
 		creating_watcher(philos, &watcher);
 		pthread_join(watcher, NULL);
-		philo_joined(&philos);
+		philo_joined(philos);
 		free(philos);
 		free(data.forks);
 	}

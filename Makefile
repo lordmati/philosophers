@@ -6,7 +6,7 @@
 #    By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/16 17:50:34 by misaguir          #+#    #+#              #
-#    Updated: 2024/07/22 15:49:48 by misaguir         ###   ########.fr        #
+#    Updated: 2024/07/22 19:19:24 by misaguir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRCS = 	main.c \
 		init.c \
 		detaching.c \
 		
-CFLAGS = -Wall -Werror -Wextra -pthread #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -pthread -fsanitize=address
 OBJS = $(SRCS:.c=.o)
 
 RM = rm -rf
