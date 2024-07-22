@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:44:22 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/19 19:25:27 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:39:03 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ typedef struct s_philo
 
 ////////FUNCTIONS////////
 long	ft_atol(const char *str);
-void	msj_error(char *str, int error, t_global *data);
+void	msj_error(char *str, int error, t_global *data, t_philo *philos);
 void	creating_forks(t_global *data);
 void	*routine(void *arg);
 void	print_screen(char *str, long mls, int philo);
 long	get_time(void);
 void	init_philo(t_philo *philo, int i, t_global *data);
 void	creating_watcher(t_philo *philos, pthread_t *watcher);
+void	philo_joined(t_philo **philos);
 
 
 #endif

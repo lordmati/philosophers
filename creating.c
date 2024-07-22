@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 16:56:07 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/19 19:39:27 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:36:08 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@ static void *watching_philos(void *arg)
 		while(++i < philo->global->n_philo)
 		{
 			time = get_time() - philo->global->time;
-			//printf("tt_die: %d, time: %ld, last_food: %ld\n", philo[i].global->tt_die, time, philo[i].last_food);
 			if(philo[i].global->tt_die < (time - philo[i].last_food))
 			{
-				printf("MUERE %d, %ld\n", i, (time - philo[i].last_food));
+				print_screen("die", (get_time() - philo->global->time), philo->id);
 				philo->global->death = 1;
 				return NULL;
 			}
+			if (philo[i].num_food == philo->global->quan_eat)
+				return NULL;
 		}
 		usleep(50);
 	}
@@ -40,23 +41,27 @@ static void *watching_philos(void *arg)
 void	creating_watcher(t_philo *philos, pthread_t *watcher)
 {
 	int res;
+
 	res = pthread_create(watcher, NULL, watching_philos, (void *)philos);
 	if (res != 0)
-		msj_error("Error create thread",res, NULL);
+		msj_error("Error create thread",res, NULL, philos);
 }
 
 void	creating_forks(t_global *data)
 {
 	int i;
+	int res;
 
 	i = 0;
+	res = 0;
 	data->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * data->n_philo);
 	if (!data->forks)
 		return ;
 	while (i < data->n_philo)
 	{
-		if (pthread_mutex_init(&data->forks[i], NULL))
-			exit(1);//hacer funcion de liberar por si falla
+		res = pthread_mutex_init(&data->forks[i], NULL);
+		if (res != 0)
+			msj_error("Error create forks", res, data, NULL);
 		i++;
 	}
 }

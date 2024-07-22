@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:38:43 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/19 19:26:01 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:39:18 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,14 @@ static t_philo *creating_thread(t_global *data)
 	if (!philos)
 		return (NULL);
 	while (++i < data->n_philo)
-	{
 		init_philo(&philos[i], i, data);
-	}
 	i = -1;
 	data->time = get_time();
 	while (++i < data->n_philo)
 	{
 		res = pthread_create(&(philos[i].thread), NULL, routine, (void *)&philos[i]);
 		if (res != 0)
-			msj_error("Error create thread", res, data);
+			msj_error("Error create thread", res, data, philos);
 	}
 	return (philos);
 }
@@ -91,6 +89,9 @@ int main (int argc, char **argv)
 		philos = creating_thread(&data);
 		creating_watcher(philos, &watcher);
 		pthread_join(watcher, NULL);
+		philo_joined(&philos);
+		free(philos);
+		free(data.forks);
 	}
 	else
 		printf("Number arguments incorrect\n");

@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:50:32 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/19 18:13:49 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:15:33 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@ void	print_screen(char *str, long mls, int philo)
 	printf("%ld %d %s\n", mls, philo, str);
 }
 
-void	msj_error(char *str, int error, t_global *data)
+void	msj_error(char *str, int error, t_global *data, t_philo *philos)
 {
-	(void)data;
+	if (data->forks)
+		free(data->forks);
+	if (philos)
+		free(philos);
 	printf("%s %d\n",str , error);
 	exit(1);
 }
