@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:44:22 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/22 19:17:18 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:16:03 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@
 # include <limits.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <stdbool.h>
+
+# define F "has taken a fork"
+# define E "is eating"
+# define S "is sleeping"
+# define T "is thinking"
 
 typedef struct s_global
 {
@@ -28,6 +34,7 @@ typedef struct s_global
 	int				tt_eat;
 	int				tt_sleep;
 	int				quan_eat;
+	bool			max_meal;
 	int				death;
 	long			time;
 	pthread_mutex_t	*forks;
@@ -51,10 +58,8 @@ void	creating_forks(t_global *data);
 void	*routine(void *arg);
 void	print_screen(char *str, long mls, int philo, int death);
 long	get_time(void);
-void	init_philo(t_philo *philo, int i, t_global *data);
 void	creating_watcher(t_philo *philos, pthread_t *watcher);
-void	philo_joined(t_philo *philos);
 void	ft_sleep(long mls);
-
+t_philo	*creating_thread(t_global *data);
 
 #endif

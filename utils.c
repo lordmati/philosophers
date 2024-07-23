@@ -6,11 +6,20 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:50:32 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/22 19:16:19 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:01:57 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void	ft_sleep(long mls)
+{
+	long	start;
+
+	start = get_time();
+	while (get_time() - start < mls)
+		usleep(100);
+}
 
 long	get_time(void)
 {
@@ -20,7 +29,7 @@ long	get_time(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void	print_screen(char *str, long mls, int philo,int death)
+void	print_screen(char *str, long mls, int philo, int death)
 {
 	if (death == 0)
 		printf("%ld %d %s\n", mls, philo, str);
@@ -32,7 +41,7 @@ void	msj_error(char *str, int error, t_global *data, t_philo *philos)
 		free(data->forks);
 	if (philos)
 		free(philos);
-	printf("%s %d\n",str , error);
+	printf("%s %d\n", str, error);
 	exit(1);
 }
 
