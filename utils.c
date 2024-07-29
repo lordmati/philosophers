@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:50:32 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/23 11:01:57 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:54:09 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,14 @@ long	get_time(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void	print_screen(char *str, long mls, int philo, int death)
+void	print_screen(char *str, long mls, int id, t_philo *philo)
 {
-	if (death == 0)
-		printf("%ld %d %s\n", mls, philo, str);
+	if (get_dead(philo) == 0)
+	{
+		pthread_mutex_lock(&philo->global->write);
+		printf("%ld %d %s\n", mls, id, str);
+		pthread_mutex_unlock(&philo->global->write);
+	}
 }
 
 void	msj_error(char *str, int error, t_global *data, t_philo *philos)

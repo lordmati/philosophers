@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:44:22 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/23 11:16:03 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:03:05 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,11 @@ typedef struct s_global
 	int				tt_eat;
 	int				tt_sleep;
 	int				quan_eat;
-	bool			max_meal;
-	int				death;
+	bool			max_meal; //mutex
+	int				death; //mutex
+	pthread_mutex_t	max_meal_t;
+	pthread_mutex_t	death_t;
+	pthread_mutex_t	write;
 	long			time;
 	pthread_mutex_t	*forks;
 }	t_global;
@@ -45,6 +48,8 @@ typedef struct s_philo
 	int				id;
 	long			last_food;
 	int				num_food;
+	pthread_mutex_t	last_food_t;
+	pthread_mutex_t	num_food_t;
 	pthread_mutex_t	*fork_right;
 	pthread_mutex_t	*fork_left;
 	t_global		*global;
@@ -56,10 +61,15 @@ long	ft_atol(const char *str);
 void	msj_error(char *str, int error, t_global *data, t_philo *philos);
 void	creating_forks(t_global *data);
 void	*routine(void *arg);
-void	print_screen(char *str, long mls, int philo, int death);
+void	print_screen(char *str, long mls, int id, t_philo *philo);
 long	get_time(void);
 void	creating_watcher(t_philo *philos, pthread_t *watcher);
 void	ft_sleep(long mls);
 t_philo	*creating_thread(t_global *data);
+int		get_dead(t_philo *philo);
+void	change_death(t_philo *philo);
+t_philo	*one_philo(t_global *data);
+void	init_philo(t_philo *philo, int i, t_global *data);
+int		check_death(t_philo *philos, long time, int i);
 
 #endif

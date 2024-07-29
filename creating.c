@@ -6,19 +6,21 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 16:56:07 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/23 10:31:16 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:01:59 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static void	init_philo(t_philo *philo, int i, t_global *data)
+void	init_philo(t_philo *philo, int i, t_global *data)
 {
 	philo->fork_left = &data->forks[i];
 	philo->fork_right = &data->forks[(i + 1) % data->n_philo];
 	philo->id = i + 1;
 	philo->last_food = 0;
 	philo->num_food = 0;
+	pthread_mutex_init(&philo->num_food_t, NULL);
+	pthread_mutex_init(&philo->last_food_t, NULL);
 	philo->global = data;
 }
 
@@ -29,7 +31,7 @@ t_philo	*creating_thread(t_global *data)
 	t_philo		*philos;
 
 	i = -1;
-	philos = (t_philo *)malloc(sizeof(t_philo) * data->n_philo + 1);
+	philos = (t_philo *)malloc(sizeof(t_philo) * data->n_philo);
 	if (!philos)
 		return (NULL);
 	while (++i < data->n_philo)
@@ -53,21 +55,21 @@ static void	*watching_philos(void *arg)
 	long	time;
 
 	philos = (t_philo *)arg;
-	while (philos->global->death == 0)
+	while (get_dead(philos) == 0)
 	{
 		i = -1;
 		while (++i < philos->global->n_philo)
 		{
 			time = get_time() - philos->global->time;
-			if (philos[i].global->tt_die < (time - philos[i].last_food))
+			if (check_death(philos, time, i) == 0)
+				return (NULL);
+			pthread_mutex_lock(&philos[i].num_food_t);
+			if (philos[i].num_food == philos->global->quan_eat)
 			{
-				print_screen("died", (get_time() - philos->global->time),
-					philos[i].id, philos->global->death);
-				philos->global->death = 1;
+				pthread_mutex_unlock(&philos[i].num_food_t);
 				return (NULL);
 			}
-			if (philos[i].num_food == philos->global->quan_eat)
-				return (NULL);
+			pthread_mutex_unlock(&philos[i].num_food_t);
 		}
 		usleep(50);
 	}

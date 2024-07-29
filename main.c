@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:38:43 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/23 11:15:50 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:02:25 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	philo_joined(t_philo *philos)
 		pthread_join(philos[i].thread, NULL);
 		i++;
 	}
+	return ;
 }
 
 static void	check_data(t_global *data)
@@ -64,6 +65,9 @@ static void	init_global(t_global *data)
 	data->quan_eat = -2;
 	data->death = 0;
 	data->forks = NULL;
+	pthread_mutex_init(&data->death_t, NULL);
+	pthread_mutex_init(&data->max_meal_t, NULL);
+	pthread_mutex_init(&data->write, NULL);
 	data->time = 0;
 }
 
@@ -79,10 +83,15 @@ int	main(int argc, char **argv)
 		fill_in_data(&data, argv, argc);
 		check_data(&data);
 		creating_forks(&data);
-		philos = creating_thread(&data);
-		creating_watcher(philos, &watcher);
-		pthread_join(watcher, NULL);
-		philo_joined(philos);
+		if (data.n_philo == 1)
+			philos = one_philo(&data);
+		else
+		{
+			philos = creating_thread(&data);
+			creating_watcher(philos, &watcher);
+			pthread_join(watcher, NULL);
+			philo_joined(philos);
+		}
 		free(philos);
 		free(data.forks);
 	}
