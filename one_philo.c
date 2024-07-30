@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 16:30:33 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/29 16:02:47 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:32:00 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ t_philo	*one_philo(t_global *data)
 		res = pthread_create(&(philos[i].thread), NULL,
 				routine_one_philo, (void *)&philos[i]);
 		if (res != 0)
+		{
 			msj_error("Error create thread", res, data, philos);
+			return (NULL);
+		}
 	}
 	pthread_join(philos[0].thread, NULL);
 	return (philos);

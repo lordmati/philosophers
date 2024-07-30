@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:44:22 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/29 16:03:05 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:50:32 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ typedef struct s_global
 	int				tt_eat;
 	int				tt_sleep;
 	int				quan_eat;
-	bool			max_meal; //mutex
-	int				death; //mutex
+	bool			max_meal;
+	int				death;
+	int				error;
 	pthread_mutex_t	max_meal_t;
 	pthread_mutex_t	death_t;
 	pthread_mutex_t	write;
@@ -71,5 +72,6 @@ void	change_death(t_philo *philo);
 t_philo	*one_philo(t_global *data);
 void	init_philo(t_philo *philo, int i, t_global *data);
 int		check_death(t_philo *philos, long time, int i);
+void	philo_joined(t_philo *philos);
 
 #endif

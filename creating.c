@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 16:56:07 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/29 16:01:59 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:55:08 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ t_philo	*creating_thread(t_global *data)
 		res = pthread_create(&(philos[i].thread), NULL,
 				routine, (void *)&philos[i]);
 		if (res != 0)
+		{
 			msj_error("Error create thread", res, data, philos);
+			return (NULL);
+		}
 	}
 	return (philos);
 }
@@ -82,7 +85,10 @@ void	creating_watcher(t_philo *philos, pthread_t *watcher)
 
 	res = pthread_create(watcher, NULL, watching_philos, (void *)philos);
 	if (res != 0)
+	{
 		msj_error("Error create thread", res, NULL, philos);
+		return ;
+	}
 }
 
 void	creating_forks(t_global *data)
@@ -100,7 +106,10 @@ void	creating_forks(t_global *data)
 	{
 		res = pthread_mutex_init(&data->forks[i], NULL);
 		if (res != 0)
+		{
 			msj_error("Error create forks", res, data, NULL);
+			return ;
+		}
 		i++;
 	}
 }

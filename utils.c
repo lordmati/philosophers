@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:50:32 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/24 18:54:09 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:34:38 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	msj_error(char *str, int error, t_global *data, t_philo *philos)
 	if (philos)
 		free(philos);
 	printf("%s %d\n", str, error);
-	exit(1);
+	data->error = 1;
 }
 
 long	ft_atol(const char *str)

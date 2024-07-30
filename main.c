@@ -6,40 +6,56 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:38:43 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/29 16:02:25 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:03:45 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static void	philo_joined(t_philo *philos)
+static int	philosophers(t_global *data)
 {
-	int	i;
+	pthread_t	watcher;
+	t_philo		*philos;
 
-	i = 0;
-	while (i < philos->global->n_philo)
+	creating_forks(data);
+	if (data->error == 1)
+		return (1);
+	if (data->n_philo == 1)
+		philos = one_philo(data);
+	if (!philos)
+		return (1);
+	else
 	{
-		pthread_join(philos[i].thread, NULL);
-		i++;
+		philos = creating_thread(data);
+		if (!philos)
+			return (1);
+		creating_watcher(philos, &watcher);
+		if (data->error == 1)
+			return (1);
+		pthread_join(watcher, NULL);
+		philo_joined(philos);
 	}
-	return ;
+	free(philos);
+	free(data->forks);
+	return (0);
 }
 
-static void	check_data(t_global *data)
+static int	check_data(t_global *data)
 {
 	if (data->n_philo == -1 || data->quan_eat == -1
 		|| data->tt_die == -1 || data->tt_eat == -1 || data->tt_sleep == -1)
 	{
-		printf("Error setting data\n");
-		exit(1);
+		write(2, "Error setting data\n", 19);
+		return (1);
 	}
 	if (data->n_philo == 0)
 	{
-		printf("Error number philo\n");
-		exit(1);
+		write (2, "Error number philo\n", 20);
+		return (1);
 	}
 	if (data->quan_eat == 0)
-		exit(0);
+		return (0);
+	return (2);
 }
 
 static void	fill_in_data(t_global *data, char **argv, int argc)
@@ -65,6 +81,7 @@ static void	init_global(t_global *data)
 	data->quan_eat = -2;
 	data->death = 0;
 	data->forks = NULL;
+	data->error = 0;
 	pthread_mutex_init(&data->death_t, NULL);
 	pthread_mutex_init(&data->max_meal_t, NULL);
 	pthread_mutex_init(&data->write, NULL);
@@ -74,28 +91,20 @@ static void	init_global(t_global *data)
 int	main(int argc, char **argv)
 {
 	t_global	data;
-	t_philo		*philos;
-	pthread_t	watcher;
 
 	init_global(&data);
 	if (argc == 5 || argc == 6)
 	{
 		fill_in_data(&data, argv, argc);
-		check_data(&data);
-		creating_forks(&data);
-		if (data.n_philo == 1)
-			philos = one_philo(&data);
+		if (check_data(&data) == 2)
+			return (philosophers(&data));
 		else
-		{
-			philos = creating_thread(&data);
-			creating_watcher(philos, &watcher);
-			pthread_join(watcher, NULL);
-			philo_joined(philos);
-		}
-		free(philos);
-		free(data.forks);
+			return (check_data(&data));
 	}
 	else
-		printf("Number arguments incorrect\n");
+	{
+		write(2, "Number arguments incorrect\n", 28);
+		return (1);
+	}
 	return (0);
 }

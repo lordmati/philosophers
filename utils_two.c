@@ -1,16 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_watching.c                                   :+:      :+:    :+:   */
+/*   utils_two.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 12:51:04 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/29 16:05:55 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:50:20 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void	philo_joined(t_philo *philos)
+{
+	int	i;
+
+	i = 0;
+	while (i < philos->global->n_philo)
+	{
+		pthread_join(philos[i].thread, NULL);
+		i++;
+	}
+	return ;
+}
 
 int	check_death(t_philo *philos, long time, int i)
 {
