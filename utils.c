@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:50:32 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/30 13:34:38 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:24:15 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	msj_error(char *str, int error, t_global *data, t_philo *philos)
 		free(data->forks);
 	if (philos)
 		free(philos);
-	printf("%s %d\n", str, error);
+	write(2, str, ft_strlen(str));
+	printf("Error: %d\n", error);
 	data->error = 1;
 }
 

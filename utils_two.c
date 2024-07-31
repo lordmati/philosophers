@@ -6,11 +6,21 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 12:51:04 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/30 13:50:20 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:10:38 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
 void	philo_joined(t_philo *philos)
 {
