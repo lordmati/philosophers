@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:44:22 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/30 13:50:32 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:32:02 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,6 @@ t_philo	*one_philo(t_global *data);
 void	init_philo(t_philo *philo, int i, t_global *data);
 int		check_death(t_philo *philos, long time, int i);
 void	philo_joined(t_philo *philos);
+size_t	ft_strlen(const char *str);
 
 #endif

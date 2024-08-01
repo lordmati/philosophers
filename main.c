@@ -6,7 +6,7 @@
 /*   By: misaguir <misaguir@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 13:38:43 by misaguir          #+#    #+#             */
-/*   Updated: 2024/07/30 14:03:45 by misaguir         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:34:12 by misaguir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	philosophers(t_global *data)
 		philos = one_philo(data);
 	if (!philos)
 		return (1);
-	else
+	else if (data->n_philo > 1)
 	{
 		philos = creating_thread(data);
 		if (!philos)
